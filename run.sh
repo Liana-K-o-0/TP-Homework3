@@ -18,6 +18,7 @@ create_local_data() {
     echo "Файл data.csv создан"
 }
 
+
 build_reporter() {
     echo "Сборка образа для контейнера аналитика..."
     docker build -f Dockerfile.reporter -t reporter-image .
@@ -29,6 +30,31 @@ run_reporter() {
     docker run --rm -v "$(pwd)/data:/data" reporter-image
     echo "Отчет создан"
 }
+
+
+structure() {
+    echo "Структура всех файлов:"
+    ls -R1
+}
+
+clear_data() {
+    echo "Удаление сгенерированных данных..."
+    rm -f data/*.csv data/*.html
+    echo "Сгенерированные данные удалены"
+}
+
+inside_generator() {
+    echo "Запуск контейнера генератора..."
+    echo "Выведение содержимого data..."
+    docker run --rm -v "$(pwd)/data:/data" generate-image ls -la /data/
+}
+
+inside_reporter() {
+    echo "Запуск контейнера аналитика..."
+    echo "Выведение содержимого data..."
+    docker run --rm -v "$(pwd)/data:/data" reporter-image ls -la /data/
+}
+
 
 case "$1" in
     build_generator)
@@ -46,8 +72,23 @@ case "$1" in
     run_reporter)
         run_reporter
         ;;
+    structure)
+        structure
+        ;;
+    clear_data)
+        clear_data
+        ;;
+    inside_generator)
+        inside_generator
+        ;;
+    inside_reporter)
+        inside_reporter
+        ;;
     *)
-        echo "Запуск функции из run.sh..."
+        echo "Доступные команды:"
+        echo "  build_generator, run_generator, create_local_data"
+        echo "  build_reporter, run_reporter, structure"
+        echo "  clear_data, inside_generator, inside_reporter"
         exit 1
         ;;
 esac
