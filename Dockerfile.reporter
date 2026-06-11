@@ -2,10 +2,10 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package.json
+COPY package.json .
 
 RUN npm install
 
-COPY report.js
+COPY report.js .
 
 CMD ["node", "report.js"]
