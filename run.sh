@@ -55,6 +55,15 @@ inside_reporter() {
     docker run --rm -v "$(pwd)/data:/data" reporter-image ls -la /data/
 }
 
+report_server() {
+    echo "запуск контейнера с веб-сервером"
+
+    docker stop report-server 2>/dev/null
+    docker rm report-server 2>/dev/null
+    docker --rm -d -p 8080:80 -v "$(pwd)/data:/usr/share/nginx/html:ro" --name report-server nginx:alpine
+    echo "Сервер запущен"
+}
+
 
 case "$1" in
     build_generator)
@@ -83,6 +92,9 @@ case "$1" in
         ;;
     inside_reporter)
         inside_reporter
+        ;;
+    report_server)
+        report_server
         ;;
     *)
         echo "Доступные команды:"
