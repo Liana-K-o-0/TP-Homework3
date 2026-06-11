@@ -60,7 +60,7 @@ report_server() {
 
     docker stop report-server 2>/dev/null
     docker rm report-server 2>/dev/null
-    docker --rm -d -p 8080:80 -v "$(pwd)/data:/usr/share/nginx/html:ro" --name report-server nginx:alpine
+    docker run --rm -d -p 8080:80 -v "$(pwd)/data:/usr/share/nginx/html:ro" --name report-server nginx:alpine
     echo "Сервер запущен"
 }
 
