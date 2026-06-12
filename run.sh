@@ -45,13 +45,13 @@ clear_data() {
 
 inside_generator() {
     echo "Запуск контейнера генератора..."
-    echo "Выведение содержимого data..."
+    echo "Выведение содержимого генератора..."
     docker run --rm -v "$(pwd)/data:/data" generate-image ls -la /data/
 }
 
 inside_reporter() {
     echo "Запуск контейнера аналитика..."
-    echo "Выведение содержимого data..."
+    echo "Выведение содержимого репортера..."
     docker run --rm -v "$(pwd)/data:/data" reporter-image ls -la /data/
 }
 
